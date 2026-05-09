@@ -26,7 +26,7 @@ export default function Home() {
 
       setResult(data.result)
     } catch (error) {
-      setResult('分析失败，请检查API配置')
+setResult(data.result)
     }
 
     setLoading(false)
