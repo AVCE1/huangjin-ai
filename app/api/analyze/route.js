@@ -29,7 +29,7 @@ export async function POST(req) {
     })
   } catch (error) {
     return Response.json({
-      result: 'AI接口错误: ' + error.message
+    result: JSON.stringify(error)
     })
   }
 }
