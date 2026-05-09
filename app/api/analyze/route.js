@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 
 const openai = new OpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: 'https://api.deepseek.com',
+  baseURL: 'https://api.deepseek.com'
 })
 
 export async function POST(req) {
@@ -15,21 +15,21 @@ export async function POST(req) {
         {
           role: 'system',
           content:
-            '你是一名专业黄金分析师，擅长分析黄金、美元、战争、美联储、原油与贵金属走势。',
+            '你是一名专业黄金分析师，擅长分析黄金、美元、美联储、战争、原油与贵金属走势。'
         },
         {
           role: 'user',
-          content: body.message,
-        },
-      ],
+          content: body.message
+        }
+      ]
     })
 
     return Response.json({
-      result: completion.choices[0].message.content,
+      result: completion.choices[0].message.content
     })
   } catch (error) {
     return Response.json({
-      result: 'AI分析失败，请检查OpenAI API配置',
+      result: 'AI接口错误: ' + error.message
     })
   }
 }
