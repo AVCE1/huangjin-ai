@@ -21,7 +21,8 @@ pnpm run build
 需要在 Cloudflare Pages 的环境变量中添加：
 
 ```text
-DEEPSEEK_API_KEY=你的 DeepSeek API Key
+OPENAI_API_KEY=你的 OpenAI API Key
+OPENAI_MODEL=gpt-4o-mini
 ```
 
-如果没有配置 `DEEPSEEK_API_KEY`，页面可以打开，但点击分析会返回环境变量缺失错误。
+如果没有配置 `OPENAI_API_KEY`，页面可以打开，但点击分析会返回环境变量缺失错误。`OPENAI_MODEL` 可选，不填时默认使用 `gpt-4o-mini`。
