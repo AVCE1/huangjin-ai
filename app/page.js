@@ -8,6 +8,11 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
 
   async function analyzeGold() {
+    if (!input.trim()) {
+      setResult('请先输入需要分析的黄金行情、新闻或问题。')
+      return
+    }
+
     setLoading(true)
     setResult('')
 
@@ -24,12 +29,16 @@ export default function Home() {
 
       const data = await response.json()
 
-      setResult(data.result)
-    } catch (error) {
-setResult(data.result)
-    }
+      if (!response.ok) {
+        throw new Error(data.error || data.result || '分析请求失败')
+      }
 
-    setLoading(false)
+      setResult(data.result || '没有收到分析结果，请稍后再试。')
+    } catch (error) {
+      setResult(`分析失败：${error.message}`)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -60,11 +69,13 @@ setResult(data.result)
 
       <button
         onClick={analyzeGold}
+        disabled={loading}
         style={{
           marginTop: '20px',
           padding: '12px 24px',
           fontSize: '16px',
-          cursor: 'pointer',
+          cursor: loading ? 'not-allowed' : 'pointer',
+          opacity: loading ? 0.7 : 1,
         }}
       >
         {loading ? 'AI分析中...' : '开始AI分析'}
