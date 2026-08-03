@@ -1,8 +1,8 @@
 export async function onRequestPost(context) {
   try {
-    if (!context.env.DEEPSEEK_API_KEY) {
+    if (!context.env.OPENAI_API_KEY) {
       return Response.json(
-        { error: "缺少 DEEPSEEK_API_KEY，请先在 Cloudflare Pages 环境变量中配置。" },
+        { error: "缺少 OPENAI_API_KEY，请先在 Cloudflare Pages 环境变量中配置。" },
         { status: 500 }
       )
     }
@@ -18,15 +18,15 @@ export async function onRequestPost(context) {
     }
 
     const response = await fetch(
-      "https://api.deepseek.com/chat/completions",
+      "https://api.openai.com/v1/chat/completions",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${context.env.DEEPSEEK_API_KEY}`
+          Authorization: `Bearer ${context.env.OPENAI_API_KEY}`
         },
         body: JSON.stringify({
-          model: "deepseek-chat",
+          model: context.env.OPENAI_MODEL || "gpt-4o-mini",
           messages: [
             {
               role: "system",
@@ -51,7 +51,7 @@ export async function onRequestPost(context) {
           error:
             data.error?.message ||
             data.message ||
-            "DeepSeek 接口没有返回有效分析结果。"
+            "OpenAI 接口没有返回有效分析结果。"
         },
         { status: response.status || 502 }
       )
